@@ -6,7 +6,6 @@ import { Filter } from './Filter/Filter';
 import { Blocks } from 'react-loader-spinner';
 
 import { useSelector, useDispatch } from 'react-redux';
-// import { addContact } from 'redux/contactsSlice';
 import { setFilterValue } from 'redux/filterSlice';
 import { fetchContactsThunk, addContactThunk } from 'redux/contactsSlice';
 
@@ -35,8 +34,9 @@ export const App = () => {
     const form = e.currentTarget;
     const name = form.elements.name.value;
     const number = form.elements.number.value;
-    const contactId = nanoid();
-
+    const lastContactIndex = contacts.length - 1;
+    const lastContactId = Number(contacts[lastContactIndex].id);
+    const contactId = String(lastContactId + 1);
     if (
       contacts.some(
         contact => contact.name.toLocaleLowerCase() === name.toLocaleLowerCase()

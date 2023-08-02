@@ -6,9 +6,7 @@ import {useDispatch } from 'react-redux';
 import { deleteContactThunk } from 'redux/contactsSlice';
 
 export const Contact = ({ name, number, id }) => {
-  // const contacts = useSelector(state => state.contacts);
   const dispatch = useDispatch();
-
 
   return (
     <div className={css.contactcontainer}>

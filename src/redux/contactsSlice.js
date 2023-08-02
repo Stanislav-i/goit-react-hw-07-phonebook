@@ -1,9 +1,13 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { fetchContactsData, addContactData, deleteContactData } from 'Services/Api';
+import {
+  fetchContactsData,
+  addContactData,
+  deleteContactData,
+} from 'Services/Api';
 
 export const fetchContactsThunk = createAsyncThunk(
   'contacts/fetchContactsThunk',
-  async (_, thunkApi) => { 
+  async (_, thunkApi) => {
     try {
       const contactsListData = await fetchContactsData();
       return contactsListData;
@@ -11,14 +15,14 @@ export const fetchContactsThunk = createAsyncThunk(
       return thunkApi.rejectWithValue(error.message);
     }
   }
-)
+);
 
 export const addContactThunk = createAsyncThunk(
   'contacts/addContactThunk',
   async (contactData, thunkApi) => {
     try {
       await addContactData(contactData);
-      console.log(contactData)
+      // console.log(contactData)
       return contactData;
     } catch (error) {
       return thunkApi.rejectWithValue(error.message);
@@ -52,10 +56,10 @@ export const contactsSlice = createSlice({
     //   state.data.push(action.payload);
     // },
     // deleteContact: (state, action) => {
-      // const index = state.data.findIndex(
-      //   contact => contact.id === action.payload
-      // );
-      // state.data.splice(index, 1);
+    // const index = state.data.findIndex(
+    //   contact => contact.id === action.payload
+    // );
+    // state.data.splice(index, 1);
     //   state.data.filter(contact => contact.id !== action.payload);
     // },
   },
@@ -98,6 +102,6 @@ export const contactsSlice = createSlice({
       }),
 });
 
-export const {deleteContact } = contactsSlice.actions;
+export const { deleteContact } = contactsSlice.actions;
 
 export const contactsReducer = contactsSlice.reducer;
