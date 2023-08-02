@@ -3,9 +3,9 @@ import css from './Contact.module.css';
 import { MdContactPhone } from 'react-icons/md';
 
 import {useDispatch } from 'react-redux';
-import { deleteContact } from 'redux/contactsSlice';
+import { deleteContactThunk } from 'redux/contactsSlice';
 
-export const Contact = ({ name, number, id, onDeleteContact }) => {
+export const Contact = ({ name, number, id }) => {
   // const contacts = useSelector(state => state.contacts);
   const dispatch = useDispatch();
 
@@ -16,7 +16,10 @@ export const Contact = ({ name, number, id, onDeleteContact }) => {
       <p className={css.info}>
         {name}: {number}
       </p>
-      <button onClick={() => dispatch(deleteContact(id))} className={css.button}>
+      <button
+        onClick={() => dispatch(deleteContactThunk(id))}
+        className={css.button}
+      >
         Delete
       </button>
     </div>

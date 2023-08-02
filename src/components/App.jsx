@@ -1,21 +1,29 @@
-import React from 'react';
+import React, { useEffect} from 'react';
 import { nanoid } from 'nanoid';
 import { ContactList } from './ContactList/ContactList';
 import { ContactForm } from './ContactForm/ContactForm';
 import { Filter } from './Filter/Filter';
+import { Blocks } from 'react-loader-spinner';
 
 import { useSelector, useDispatch } from 'react-redux';
-import { addContact } from 'redux/contactsSlice';
+// import { addContact } from 'redux/contactsSlice';
 import { setFilterValue } from 'redux/filterSlice';
+import { fetchContactsThunk, addContactThunk } from 'redux/contactsSlice';
 
 export const App = () => {
   const contacts = useSelector(state => state.contacts.data);
+  const isLoading = useSelector(state => state.contacts.isLoading);
+  const errorMessage = useSelector(state => state.contacts.error)
   const filter = useSelector(state => state.filter);
   const dispatch = useDispatch();
 
   const nameInputId = nanoid();
   const numberInputId = nanoid();
   const searchInputId = nanoid();
+
+  useEffect(() => {
+    dispatch(fetchContactsThunk());
+  }, [dispatch]);
 
   const handleFilterChange = e => {
     const userQuery = e.target.value;
@@ -36,7 +44,7 @@ export const App = () => {
     ) {
       alert(`${name} is already in contacts`);
     } else {
-      dispatch(addContact({ id: contactId, name: name, number: number }));
+      dispatch(addContactThunk({ id: contactId, name: name, number: number }));
     }
     form.reset();
   };
@@ -70,6 +78,21 @@ export const App = () => {
       <h2>Contacts</h2>
 
       <Filter id={searchInputId} value={filter} onChange={handleFilterChange} />
+
+      {isLoading && (
+        <Blocks
+          visible={true}
+          height="80"
+          width="80"
+          ariaLabel="blocks-loading"
+          wrapperStyle={{}}
+          wrapperClass="blocks-wrapper"
+        />
+      )}
+
+      {errorMessage && (
+        <p>Sorry, something went wrong! Error: { errorMessage}</p>
+      )}
 
       <ContactList contactList={getFilteredContacts()} />
     </div>
