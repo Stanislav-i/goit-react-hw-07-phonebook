@@ -49,13 +49,6 @@ export const App = () => {
     form.reset();
   };
 
-  const getFilteredContacts = () => {
-    const normalizedFilter = filter.toLocaleLowerCase();
-    return contacts.filter(contact =>
-      contact.name.toLocaleLowerCase().includes(normalizedFilter)
-    );
-  };
-
   return (
     <div
       style={{
@@ -94,7 +87,7 @@ export const App = () => {
         <p>Sorry, something went wrong! Error: { errorMessage}</p>
       )}
 
-      <ContactList contactList={getFilteredContacts()} />
+      <ContactList />
     </div>
   );
 };
