@@ -34,9 +34,7 @@ export const App = () => {
     const form = e.currentTarget;
     const name = form.elements.name.value;
     const number = form.elements.number.value;
-    const lastContactIndex = contacts.length - 1;
-    const lastContactId = Number(contacts[lastContactIndex].id);
-    const contactId = String(lastContactId + 1);
+
     if (
       contacts.some(
         contact => contact.name.toLocaleLowerCase() === name.toLocaleLowerCase()
@@ -44,7 +42,7 @@ export const App = () => {
     ) {
       alert(`${name} is already in contacts`);
     } else {
-      dispatch(addContactThunk({ id: contactId, name: name, number: number }));
+      dispatch(addContactThunk({ name: name, number: number }));
     }
     form.reset();
   };

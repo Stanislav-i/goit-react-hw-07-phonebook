@@ -18,7 +18,6 @@ export const addContactData = async newContact => {
   const data = await fetch(BASE_URL, {
     method: 'POST',
     headers: { 'content-type': 'application/json' },
-    // Send your data in the request body as JSON
     body: JSON.stringify(newContact),
   }).then(res => {
     if (res.ok) {

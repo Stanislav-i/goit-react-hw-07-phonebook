@@ -5,6 +5,7 @@ import {
   deleteContactData,
 } from 'Services/Api';
 
+
 export const fetchContactsThunk = createAsyncThunk(
   'contacts/fetchContactsThunk',
   async (_, thunkApi) => {
@@ -21,9 +22,8 @@ export const addContactThunk = createAsyncThunk(
   'contacts/addContactThunk',
   async (contactData, thunkApi) => {
     try {
-      await addContactData(contactData);
-      // console.log(contactData)
-      return contactData;
+      const newContact = await addContactData(contactData);
+      return newContact;
     } catch (error) {
       return thunkApi.rejectWithValue(error.message);
     }
@@ -77,7 +77,7 @@ export const contactsSlice = createSlice({
         state.isLoading = false;
         state.error = action.payload;
       })
-      // ======ADD TASK
+      // ======ADD CONTACT
       // .addCase(addContactThunk.pending, (state) => {
 
       // })
@@ -87,7 +87,7 @@ export const contactsSlice = createSlice({
       .addCase(addContactThunk.rejected, (state, action) => {
         state.error = action.payload;
       })
-      // ======DELETE TASK
+      // ======DELETE CONTACT
       // .addCase(addContactThunk.pending, (state) => {
 
       // })
