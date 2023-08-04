@@ -8,11 +8,16 @@ import { Blocks } from 'react-loader-spinner';
 import { useSelector, useDispatch } from 'react-redux';
 import { setFilterValue } from 'redux/filterSlice';
 import { fetchContactsThunk, addContactThunk } from 'redux/contactsSlice';
+import {
+  selectContacts,
+  selectError,
+  selectIsLoading,
+} from 'redux/contactsSlice';
 
 export const App = () => {
-  const contacts = useSelector(state => state.contacts.data);
-  const isLoading = useSelector(state => state.contacts.isLoading);
-  const errorMessage = useSelector(state => state.contacts.error)
+  const contacts = useSelector(selectContacts);
+  const isLoading = useSelector(selectIsLoading);
+  const errorMessage = useSelector(selectError);
   const filter = useSelector(state => state.filter);
   const dispatch = useDispatch();
 

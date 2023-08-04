@@ -1,10 +1,12 @@
 import css from './ContactList.module.css';
 import { Contact } from './Contact';
-import { useSelector} from 'react-redux';
+import { useSelector } from 'react-redux';
+import { selectContacts } from 'redux/contactsSlice';
+import { selectFilter } from 'redux/filterSlice';
 
 export const ContactList = () => {
-  const contacts = useSelector(state => state.contacts.data);
-  const filter = useSelector(state => state.filter);
+  const contacts = useSelector(selectContacts);
+  const filter = useSelector(selectFilter);
 
     const getFilteredContacts = () => {
       const normalizedFilter = filter.toLocaleLowerCase();
@@ -15,7 +17,8 @@ export const ContactList = () => {
   
   return (
     <ul className={css.liststyle}>
-      {getFilteredContacts().map(({ id, name, number }) => (
+      { contacts.length === 0 && <p>Ooops! We didn't find any contacts of yours!</p>}
+      {contacts.length > 0 && getFilteredContacts().map(({ id, name, number }) => (
         <li key={id}>
           <Contact name={name} number={number} id={id} />
         </li>
