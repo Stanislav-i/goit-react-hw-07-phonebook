@@ -1,9 +1,35 @@
-import PropTypes from 'prop-types';
 import css from './ContactForm.module.css';
+import { nanoid } from 'nanoid';
+import { useSelector, useDispatch } from 'react-redux';
+import { selectContacts, addContactThunk } from 'redux/contactsSlice';
 
-export const ContactForm = ({ onSubmit, nameInputId, numberInputId }) => {
+export const ContactForm = () => {
+  const dispatch = useDispatch();
+  const contacts = useSelector(selectContacts);
+
+  const nameInputId = nanoid();
+  const numberInputId = nanoid();
+
+  const handleSubmit = e => {
+    e.preventDefault();
+    const form = e.currentTarget;
+    const name = form.elements.name.value;
+    const number = form.elements.number.value;
+
+    if (
+      contacts.some(
+        contact => contact.name.toLocaleLowerCase() === name.toLocaleLowerCase()
+      )
+    ) {
+      alert(`${name} is already in contacts`);
+    } else {
+      dispatch(addContactThunk({ name: name, number: number }));
+    }
+    form.reset();
+  };
+
   return (
-    <form onSubmit={onSubmit} className={css.formstyle}>
+    <form onSubmit={handleSubmit} className={css.formstyle}>
       <label htmlFor={nameInputId} className={css.inputname}>
         Name
       </label>
@@ -35,10 +61,4 @@ export const ContactForm = ({ onSubmit, nameInputId, numberInputId }) => {
       </button>
     </form>
   );
-};
-
-ContactForm.propTypes = {
-  onSubmit: PropTypes.func,
-  nameInputId: PropTypes.string,
-  numberInputId: PropTypes.string,
 };
